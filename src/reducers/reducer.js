@@ -1,4 +1,5 @@
 import React from "react";
+import { REMOVE_FEATURE, BUY_ITEM } from "../actions/actions";
 
 export const initialState = {
   additionalPrice: 0,
@@ -19,6 +20,11 @@ export const initialState = {
 
 export const carSalesReducer = (state = initialState, action) => {
   switch (action.type) {
+    case REMOVE_FEATURE:
+      return {
+        ...state,
+        features: action.payload
+      };
     default:
       return state;
   }

@@ -1,6 +1,3 @@
-import React from "react";
-import { REMOVE_FEATURE, BUY_ITEM } from "../actions/actions";
-
 export const initialState = {
   additionalPrice: 0,
   car: {
@@ -20,10 +17,29 @@ export const initialState = {
 
 export const carSalesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case REMOVE_FEATURE:
+    case "ADD_FEATURE":
       return {
         ...state,
-        features: action.payload
+        additionalPrice: state.additionalPrice + action.payload.price,
+        additionalFeatures: state.additionalFeatures.filter(item => {
+          return item.id !== action.payload.id;
+        }),
+        car: {
+          ...state.car,
+          features: [...state.car.features, action.payload]
+        }
+      };
+    case "REMOVE_FEATURE":
+      return {
+        ...state,
+        additionalPrice: (state.additionalPrice = action.payload.price),
+        additionalFeatures: [...state.additionalFeatures, action.payload],
+        car: {
+          ...state.car,
+          features: state.car.features.filter(item => {
+            return item.id !== action.payload.id;
+          })
+        }
       };
     default:
       return state;
